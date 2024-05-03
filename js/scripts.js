@@ -2,19 +2,22 @@
 const dataAtual = new Date();
 const dataHoje = new Date();
 const mesano = dataAtual.toLocaleDateString('pt-br', { month: 'long' }) + ' ' + dataAtual.getFullYear();
-const diaDisponivel = [11,13,14];
-const diaSemana = ["Domingo","Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado"]; 
+const diaDisponivel = [11, 13, 14];
+const diaSemana = ["Domingo", "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado"];
+const horarios = ["14:00", "14:30", "15:00", "15:30"];
 
 function nextMonth() {
 
     let proximoMes = new Date(dataAtual.setMonth(dataAtual.getMonth() + 1));
     let mesAnoCalendario = document.getElementById("mesano");
 
-//let teste = proximoMes.getFullYear() == dataHoje.getFullYear();
-    
+    //let teste = proximoMes.getFullYear() == dataHoje.getFullYear();
+
     mesAnoCalendario.innerText = proximoMes.toLocaleDateString('pt-br', { month: 'long' }) + ' ' + proximoMes.getFullYear();
-    
+
     carregaCalendario();
+    let agendar = document.getElementsByClassName("agendar")[0];
+    agendar.innerHTML = '';
 }
 
 function previousMonth() {
@@ -22,8 +25,10 @@ function previousMonth() {
     let anteriorMes = new Date(dataAtual.setMonth(dataAtual.getMonth() - 1));
     let mesAnoCalendario = document.getElementById("mesano");
     mesAnoCalendario.innerText = anteriorMes.toLocaleDateString('pt-br', { month: 'long' }) + ' ' + anteriorMes.getFullYear();
-    
+
     carregaCalendario();
+    let agendar = document.getElementsByClassName("agendar")[0];
+    agendar.innerHTML = '';
 }
 
 //construção painel esquerdo
@@ -61,51 +66,47 @@ function agendar(nLugar) {
 }
 
 function selecionarDia(nLugar) {
+
+
+
     const dias = document.querySelectorAll(".dia");
     const dia = dias[nLugar];
 
-    dias.forEach((dia) => {
-        dia.classList.remove("selecionado");
-    });
+    //dia.className
 
-    dia.classList.add("selecionado");
-
-   dataAtual.setDate(nLugar+1);
-    
-//panelRight
-    const agendar = document.getElementsByClassName("agendar")[0];
-
-    const duracao = document.getElementById("duration").value;
-
- /*  
-    if(duracao == '30'){
-        console.log("30 min")
+    if (dia.className == 'dia') {
+        alert("Este dia não está disponível para agendamento");
     } else {
-        console.log("60 min")
-    }
+        dias.forEach((dia) => {
+            dia.classList.remove("selecionado");
+        });
 
-    agendar.innerHTML = '<h1>Agenda</h1><p>' + diaSemana[(dataAtual.getDay())] + ', ' + dataAtual.getDate() + ' de ' + dataAtual.toLocaleDateString('pt-br', { month: 'long' })  + '  </p> <button onclick="agendar()">Agendar</button>';
-*/
+        dia.classList.add("selecionado");
 
-    agendar.innerHTML = '<h1>Agenda</h1><p>' + diaSemana[(dataAtual.getDay())] + ', ' + dataAtual.getDate() + ' de ' + dataAtual.toLocaleDateString('pt-br', { month: 'long' })  + '  </p> <button onclick="agendar()">Agendar</button>';
+        dataAtual.setDate(nLugar + 1);
 
-    if(duracao == '30'){
-        for (let i = 0; i < 10; i++) {
-            agendar.innerHTML += `<div class="horarios">${i}</div>`;
-        }
-    } else {
-        for (let i = 0; i < 5; i++) {
-            agendar.innerHTML += `<div>${i}</div>`;
+        //panelRight
+        const agendar = document.getElementsByClassName("agendar")[0];
+        const duracao = document.getElementById("duration").value;
+
+        agendar.innerHTML = '<h1>Agenda</h1><p>' + diaSemana[(dataAtual.getDay())] + ', ' + dataAtual.getDate() + ' de ' + dataAtual.toLocaleDateString('pt-br', { month: 'long' });
+
+        if (duracao == '30') {
+            for (let i = 0; i < horarios.length; i++) {
+                agendar.innerHTML += `<div class="horarios" onclick="agendar(${nLugar})">` + horarios[i] + '</div>';
+            }
+        } else {
+            for (let i = 0; i < horarios.length; i += 2) {
+                agendar.innerHTML += `<div class="horarios" onclick="agendar(${nLugar})">` + horarios[i] + '</div>';
+            }
         }
     }
-    
-    
 }
 
 carregaCalendario();
 
-function carregaCalendario() {    
-    
+function carregaCalendario() {
+
     calendardias.innerHTML = `<div>DOM</div>`;
     calendardias.innerHTML += `<div>SEG</div>`;
     calendardias.innerHTML += `<div>TER</div>`;
@@ -113,9 +114,9 @@ function carregaCalendario() {
     calendardias.innerHTML += `<div>QUI</div>`;
     calendardias.innerHTML += `<div>SEX</div>`;
     calendardias.innerHTML += `<div>SAB</div>`;
-    
+
     dataAtual.setDate(1);
-    
+
     let ondeComeca = dataAtual.getDay();
 
     for (let i = 0; i < ondeComeca; i++) {
@@ -125,25 +126,25 @@ function carregaCalendario() {
     let mesTotalDias = new Date(dataAtual.getFullYear(), dataAtual.getMonth() + 1, 0).getDate();
 
     for (let i = 0; i < mesTotalDias; i++) {
-        if((dataAtual.getFullYear() == dataHoje.getFullYear()) && (dataAtual.getMonth() == dataHoje.getMonth())){
-            if (i + 1 == dataHoje.getDate()){
+        if ((dataAtual.getFullYear() == dataHoje.getFullYear()) && (dataAtual.getMonth() == dataHoje.getMonth())) {
+            if (i + 1 == dataHoje.getDate()) {
                 calendardias.innerHTML += `<div onclick="selecionarDia(${i})" class="dia hoje">${i + 1
-                }
+                    }
                 </div>`;
-            } else {                
-                if (diaDisponivel.indexOf(i + 1) > -1){
+            } else {
+                if (diaDisponivel.indexOf(i + 1) > -1) {
                     calendardias.innerHTML += `<div onclick="selecionarDia(${i})" class="dia livre">${i + 1
-                    }</div>`;
+                        }</div>`;
                 } else {
                     calendardias.innerHTML += `<div onclick="selecionarDia(${i})" class="dia">${i + 1
-                    }</div>`;
+                        }</div>`;
                 }
-               
+
             }
 
-        } else {            
+        } else {
             calendardias.innerHTML += `<div onclick="selecionarDia(${i})" class="dia">${i + 1
-            }</div>`;
+                }</div>`;
         }
     }
 }
