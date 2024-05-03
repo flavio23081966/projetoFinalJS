@@ -60,6 +60,7 @@ main {
   position: relative;
 }
 
+
 .hoje::after {  
     content: "";
     position: absolute;
