@@ -1,0 +1,98 @@
+.calendar {
+  border: 1px solid gray;
+  border-radius: 10px;
+  width: 350px;
+  height: fit-content;
+  min-height: 500px;
+}
+
+.calendarcabecalho {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content:space-around;
+}
+
+.calendardias {
+  display: grid;
+  grid-template-columns: repeat(7,1fr);
+  align-content: start;
+  overflow: hidden; 
+}
+
+.calendardias div {
+  border: 1px solid white;
+  text-align: center;
+  vertical-align: middle;  
+  padding: 5px;
+  height: 40px;
+  border-radius: 5px;
+}
+
+.calendardias .dia {
+  background-color: rgb(110, 207, 255);
+  cursor: pointer;
+}
+.calendardias .dia:hover {
+  background-color: rgba(110, 207, 255, 0.716);
+}
+
+h1 {
+  text-align: center;
+}
+
+main {
+  display: flex;
+  gap: 30px;
+  flex-direction: row;
+  justify-content: center;
+}
+.calendar .dia.reservado {
+  background-color: rgb(255, 110, 110);
+}
+
+.calendar .dia.livre {
+  background-color: #6289f5;
+}
+
+.hoje {
+  position: relative;
+}
+
+.hoje::after {  
+    content: "";
+    position: absolute;
+    bottom: 5px; /* Adiciona um espaço de 5px abaixo do dia */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 10px;
+    height: 10px; /* Altera a altura para tornar um círculo */
+    border-radius: 50%; /* Torna a forma um círculo */
+    background-color: red; /* Cor da marcação */
+}
+
+.calendar .dia.selecionado {
+  background-color: rgb(110, 255, 110);
+}
+
+.calendar .dia.reservado {
+  background-color: rgb(255, 110, 110);
+}
+
+.panelLeft {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.combo {
+  width: 100%;
+  padding: 5px;
+}
+
+.horarios {
+  background-color: lightgreen;
+  width: 100%;
+  height: 50px;
+  border-radius: 10px;
+  margin-top: 2px;
+}
